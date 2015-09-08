@@ -16,3 +16,8 @@ Practice on Rake
   7. {MultiTask}[http://devblog.avdi.org/2014/04/29/rake-part-7-multitask/]
 * {Jim Weirich's 2003 RubyConf presentation}[http://web.archive.org/web/20140221123354/http://onestepback.org/articles/buildingwithrake/]
 * Martin Fowler's article on Rake: http://martinfowler.com/articles/rake.html
+    
+
++++ TODO
+
+MultiTask Not Complete

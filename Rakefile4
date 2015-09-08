@@ -23,11 +23,11 @@ task :default => ["book.epub","book.mobi"]
 
 task :html => OUTPUT_FILES
 
-LISTINGS = FileList["listings/*"]
-HIGHLIGHTS = LISTINGS.ext(".html")
-CLEAN.include(HIGHLIGHTS)
-
-task :highlight => HIGHLIGHTS 
+#LISTINGS = FileList["listings/*"]
+#HIGHLIGHTS = LISTINGS.ext(".html")
+#CLEAN.include(HIGHLIGHTS)
+#
+#task :highlight => HIGHLIGHTS 
 
 #%W[ch1.md ch2.md ch3.md].each do |md_file|
 #    html_file = File.basename(md_file,".md")+".html"
@@ -42,7 +42,6 @@ rule ".html" => ->(f){source_for_html(f)} do |t|
     mkdir_p t.name.pathmap("%d")
     #puts "pandoc -o #{t.name} #{t.source}"
     sh "pandoc -o #{t.name} #{t.source}"
-    #sh "pygmentize -o #{t.name} #{t.source}"
 end
 
 file "book.html" => OUTPUT_FILES do |t|
