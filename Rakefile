@@ -27,7 +27,8 @@ task :html => OUTPUT_FILES
 
 rule ".html" => ->(f){source_for_html(f)} do |t|
     #puts "mkdir -p #{t.name.pathmap('%d')} > /dev/null 2>&1"
-    sh "mkdir -p #{t.name.pathmap('%d')} > /dev/null 2>&1"
+    #sh "mkdir -p #{t.name.pathmap('%d')} > /dev/null 2>&1"
+    mkdir_p t.name.pathmap("%d")
     #puts "pandoc -o #{t.name} #{t.source}"
     sh "pandoc -o #{t.name} #{t.source}"
 end
@@ -35,3 +36,7 @@ end
 #rule ".html" => ".markdown" do |t|
 #    sh "pandoc -o #{t.name} #{t.source}"
 #end
+
+task :clean do
+    rm_rf "outputs"
+end
