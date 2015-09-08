@@ -1,5 +1,3 @@
-require 'rake/clean'
-
 Rake.application.options.trace_rules = true
 
 SOURCE_FILES = Rake::FileList.new("sources/**/*.md","sources/**/*.markdown") do |f1|
@@ -12,14 +10,11 @@ end
 
 OUTPUT_FILES = SOURCE_FILES.pathmap("%{^sources/,outputs/}X.html")
 
-CLEAN.include(OUTPUT_FILES)
-
 def source_for_html(html_file)
     SOURCE_FILES.detect{|f| f.pathmap('%n') == html_file.pathmap('%n') }
 end
 
-#task :default => :html
-task :default => ["book.epub","book.mobi"]
+task :default => :html
 
 task :html => OUTPUT_FILES
 
@@ -37,24 +32,6 @@ rule ".html" => ->(f){source_for_html(f)} do |t|
     #puts "pandoc -o #{t.name} #{t.source}"
     sh "pandoc -o #{t.name} #{t.source}"
 end
-
-file "book.html" => OUTPUT_FILES do |t|
-    chapters = FileList["outputs/ch*.html"]
-    backmatter = FileList["outputs/backmatter/*.html"]
-    sh "cat #{chapters} #{backmatter} > #{t.name}"
-end
-CLEAN.include("book.html")
-
-file "book.epub" => "book.html" do |t|
-    sh "ebook-convert book.html #{t.name}"
-end
-CLOBBER << "book.epub"
-
-file "book.mobi" => "book.epub" do |t|
-    sh "kindlegen book.epub -o #{t.name}"
-end
-CLOBBER << "book.mobi"
-
 
 #rule ".html" => ".markdown" do |t|
 #    sh "pandoc -o #{t.name} #{t.source}"
